@@ -3,6 +3,7 @@ const storySection = document.querySelector("#story-section");
 const storyOutput = document.querySelector("#story-output");
 const storyTitle = document.querySelector("#story-title");
 const formError = document.querySelector("#form-error");
+const submitButton = form.querySelector('button[type="submit"]');
 
 const fieldIds = [
   "creatureName", "habitat", "personality", "sensor", "senses", "output", "response", "ability",
@@ -22,6 +23,7 @@ const surpriseWords = {
 };
 
 let lastTemplateIndex = -1;
+let preserveTemplateOnSubmit = false;
 
 const esc = (value) => String(value).replace(/[&<>'"]/g, (char) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
@@ -306,12 +308,17 @@ function chooseTemplate() {
   return templates[next];
 }
 
-function renderStory() {
+function renderStory({ preserveTemplate = false } = {}) {
   const details = creatureDetails();
-  const story = chooseTemplate()(details);
+  const template = preserveTemplate && lastTemplateIndex >= 0
+    ? templates[lastTemplateIndex]
+    : chooseTemplate();
+  const story = template(details);
   storyTitle.textContent = story.title;
   storyOutput.innerHTML = `<h3>${esc(story.title)}</h3>${story.paragraphs.map((p) => `<p>${p}</p>`).join("")}`;
   storySection.hidden = false;
+  preserveTemplateOnSubmit = false;
+  submitButton.innerHTML = 'Create my adventure <span aria-hidden="true">→</span>';
   storySection.scrollIntoView({ behavior: "smooth", block: "start" });
   window.setTimeout(() => storyOutput.focus({ preventScroll: true }), 450);
 }
@@ -611,7 +618,7 @@ function validateForm() {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (validateForm()) renderStory();
+  if (validateForm()) renderStory({ preserveTemplate: preserveTemplateOnSubmit });
 });
 
 document.querySelector("#surprise-button").addEventListener("click", () => {
@@ -623,6 +630,8 @@ document.querySelector("#surprise-button").addEventListener("click", () => {
 
 document.querySelector("#reroll-button").addEventListener("click", renderStory);
 document.querySelector("#edit-button").addEventListener("click", () => {
+  preserveTemplateOnSubmit = true;
+  submitButton.innerHTML = 'Update my adventure <span aria-hidden="true">→</span>';
   form.scrollIntoView({ behavior: "smooth", block: "start" });
   document.querySelector("#creatureName").focus({ preventScroll: true });
 });
