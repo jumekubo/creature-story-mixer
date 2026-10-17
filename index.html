@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Create a funny solo adventure starring your Creature Studio creature and its real Hummingbird hardware."
+    />
+    <title>Creature Story Mixer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Creature Story Mixer home">
+        <img src="assets/creature-studio-logo.png" alt="Creature Studio" />
+        <span>
+          <strong>Creature Story Mixer</strong>
+          <small>Your creature. Your hardware. One ridiculous adventure.</small>
+        </span>
+      </a>
+      <div class="privacy-pill" aria-label="Privacy note">No login · Nothing is saved</div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">SOLO ADVENTURE GENERATOR</p>
+          <h1 id="page-title">Your creature is about to have a very strange day.</h1>
+          <p class="hero-copy">
+            Tell us about the creature you are building. Then add some secret words without peeking at the story.
+            Your real sensor and output will become part of the adventure.
+          </p>
+          <p class="library-note"><strong>20 solo adventures</strong> are waiting in the story library.</p>
+        </div>
+        <div class="sense-loop" aria-label="Sense, think, act">
+          <span><b>1</b> Sense</span><i aria-hidden="true">→</i><span><b>2</b> Think</span><i aria-hidden="true">→</i><span><b>3</b> Act</span>
+        </div>
+      </section>
+
+      <form id="story-form" novalidate>
+        <section class="form-card" aria-labelledby="creature-heading">
+          <div class="section-heading">
+            <span class="step-number">1</span>
+            <div>
+              <p class="eyebrow">THE REAL DETAILS</p>
+              <h2 id="creature-heading">About your creature</h2>
+            </div>
+          </div>
+
+          <div class="field-grid three-col">
+            <label>
+              Creature's name
+              <input id="creatureName" name="creatureName" required placeholder="Glimbo" autocomplete="off" />
+            </label>
+            <label>
+              Habitat
+              <input id="habitat" name="habitat" required placeholder="an underground mushroom cave" autocomplete="off" />
+            </label>
+            <label>
+              Personality word
+              <input id="personality" name="personality" required placeholder="curious" autocomplete="off" />
+            </label>
+          </div>
+
+          <div class="hardware-box">
+            <div class="hardware-title">
+              <span aria-hidden="true">⚙</span>
+              <div>
+                <h3>Sense–Think–Act setup</h3>
+                <p>Use the parts and response you plan to build.</p>
+              </div>
+            </div>
+            <div class="field-grid two-col">
+              <label>
+                Sensor
+                <select id="sensor" name="sensor" required>
+                  <option value="">Choose a sensor…</option>
+                  <option>distance sensor</option>
+                  <option>light sensor</option>
+                  <option>sound sensor</option>
+                  <option>dial sensor</option>
+                  <option>micro:bit temperature sensor</option>
+                  <option>micro:bit accelerometer</option>
+                  <option>micro:bit button</option>
+                </select>
+              </label>
+              <label>
+                What does it sense?
+                <input id="senses" name="senses" required placeholder="something getting too close" autocomplete="off" />
+              </label>
+              <label>
+                Output component
+                <select id="output" name="output" required>
+                  <option value="">Choose an output…</option>
+                  <option>single-color LED</option>
+                  <option>tri-color LED</option>
+                  <option>position servo</option>
+                  <option>rotation servo</option>
+                  <option>micro:bit display</option>
+                  <option>micro:bit speaker</option>
+                </select>
+              </label>
+              <label>
+                What happens? <span class="label-hint">Use a short action phrase.</span>
+                <input id="response" name="response" required placeholder="turns red, spins, or flashes twice" autocomplete="off" />
+              </label>
+            </div>
+          </div>
+
+          <label class="wide-field">
+            Special ability
+            <input id="ability" name="ability" required placeholder="glowing whenever danger is near" autocomplete="off" />
+          </label>
+        </section>
+
+        <section class="form-card secret-card" aria-labelledby="words-heading">
+          <div class="section-heading">
+            <span class="step-number">2</span>
+            <div>
+              <p class="eyebrow">DON'T PEEK AT THE STORY YET</p>
+              <h2 id="words-heading">Supply the secret words</h2>
+            </div>
+            <button class="button secondary small" type="button" id="surprise-button">Surprise me</button>
+          </div>
+
+          <div class="field-grid three-col">
+            <label>Adjective <input id="adjective" required placeholder="sparkly" autocomplete="off" /></label>
+            <label>Object <input id="object" required placeholder="toaster" autocomplete="off" /></label>
+            <label>Food <input id="food" required placeholder="mashed potatoes" autocomplete="off" /></label>
+            <label>Animal <input id="animal" required placeholder="penguin" autocomplete="off" /></label>
+            <label>Place <input id="place" required placeholder="the Moon" autocomplete="off" /></label>
+            <label>Verb ending in -ing <input id="verbIng" required placeholder="tap-dancing" autocomplete="off" /></label>
+            <label>Silly object <input id="sillyObject" required placeholder="rubber chicken" autocomplete="off" /></label>
+            <label>Exclamation <input id="exclamation" required placeholder="Great bouncing broccoli!" autocomplete="off" /></label>
+            <label>Number from 2–99 <input id="number" required type="number" min="2" max="99" placeholder="17" /></label>
+          </div>
+        </section>
+
+        <div class="create-row">
+          <p><strong>Ready?</strong> Your words will stay secret until you create the adventure.</p>
+          <button class="button primary" type="submit">Create my adventure <span aria-hidden="true">→</span></button>
+        </div>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+      </form>
+
+      <section id="story-section" class="story-section" aria-labelledby="story-title" hidden>
+        <div class="story-toolbar">
+          <div>
+            <p class="eyebrow">YOUR SOLO ADVENTURE</p>
+            <h2 id="story-title">The Adventure</h2>
+          </div>
+          <div class="toolbar-buttons">
+            <button class="button secondary" id="reroll-button" type="button">New story, same words</button>
+            <button class="button secondary" id="edit-button" type="button">Edit my words</button>
+            <button class="button secondary" id="copy-button" type="button">Copy</button>
+            <button class="button pdf-button" id="pdf-button" type="button">Download polished PDF</button>
+            <button class="button secondary" id="print-button" type="button">Print</button>
+          </div>
+        </div>
+        <article id="story-output" class="story-paper" tabindex="-1" aria-live="polite"></article>
+        <p class="read-aloud-note"><strong>Read-aloud challenge:</strong> Stay in character—even when the story gets ridiculous.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>Creature Studio</span>
+      <span>Facilitator: Mr. Umekubo</span>
+    </footer>
+  </body>
+</html>
